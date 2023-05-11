@@ -31,7 +31,7 @@ class StoreFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_faculty, container, false)
+        val view = inflater.inflate(R.layout.fragment_store, container, false)
         rvStore = view.findViewById(R.id.rv_store)
         rvStore.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         return view

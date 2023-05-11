@@ -78,7 +78,7 @@ class CategoryList(private val category: Category) : Fragment() {
     private fun showDeleteDialog(product: Product) {
         val builder = AlertDialog.Builder(requireContext())
         builder.setCancelable(true)
-        builder.setMessage("Удалить студента ${product.name} из списка?")
+        builder.setMessage("Удалить товар ${product.name} из списка?")
         builder.setTitle("Подтверждение")
         builder.setPositiveButton(getString(R.string.commit)) { _, _ ->
             viewModel.deleteProduct(category.id, product)

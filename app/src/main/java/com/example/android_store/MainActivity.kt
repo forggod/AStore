@@ -56,7 +56,6 @@ class MainActivity : AppCompatActivity(), StoreFragment.Callbacks, CategoryList.
                     showNameInputDialog(1)
                 true
             }
-
             else -> return super.onOptionsItemSelected(item)
         }
     }

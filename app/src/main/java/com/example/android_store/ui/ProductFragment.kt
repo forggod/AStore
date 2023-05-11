@@ -130,7 +130,7 @@ class ProductFragment : Fragment() {
                         dayManufacture = Date(selectedDM.time.time)
                         dayExpiring = Date(selectedDE.time.time)
                     }
-                    viewModel.newProduct(categoryID!!, product!!)
+                    viewModel.editProduct(categoryID!!, product!!)
                 }
                 backPressedCallback.isEnabled=false
                 requireActivity().onBackPressedDispatcher.onBackPressed()
