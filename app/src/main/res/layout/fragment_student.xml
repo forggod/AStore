@@ -5,7 +5,7 @@
     android:id="@+id/frameLayoutStudent_Phone"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.StudentFragment" >
+    tools:context=".ui.ProductFragment" >
 
     <TextView
         android:id="@+id/textView_FirstName"

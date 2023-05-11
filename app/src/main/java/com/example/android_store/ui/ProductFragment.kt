@@ -15,20 +15,20 @@ import com.example.android_store.R
 import com.example.android_store.databinding.FragmentStudentBinding
 import java.util.*
 
-const val STUDENT_TAG = "StudentFragment"
+const val PRODUCT_TAG = "ProductFragment"
 
-class StudentFragment : Fragment() {
+class ProductFragment : Fragment() {
 
     private var _binding: FragmentStudentBinding? = null
     private val binding get() = _binding!!
 
     companion object {
         private var product: Product? = null
-        private var groupID: UUID? = null
-        fun newInstance(groupID: UUID, product: Product?): StudentFragment {
+        private var categoryID: UUID? = null
+        fun newInstance(categoryID: UUID, product: Product?): ProductFragment {
             this.product = product
-            this.groupID = groupID
-            return StudentFragment()
+            this.categoryID = categoryID
+            return ProductFragment()
         }
     }
 
@@ -40,8 +40,7 @@ class StudentFragment : Fragment() {
         return binding.root
     }
 
-    //   private var selectedDate = GregorianCalendar()
-    private lateinit var viewModel: StudentViewModel
+    private lateinit var viewModel: ProductViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -59,14 +58,7 @@ class StudentFragment : Fragment() {
                 dt.get(Calendar.DAY_OF_MONTH), null
             )
         }
-        viewModel = ViewModelProvider(this).get(StudentViewModel::class.java)
-        /* binding.calendarViewBirthDate.setOnDateChangeListener{_ ,year, month, dayOfMonth ->
-             selectedDate.apply {
-                 set(GregorianCalendar.YEAR,year)
-                 set(GregorianCalendar.MONTH,month)
-                 set(GregorianCalendar.DAY_OF_MONTH,dayOfMonth)
-             }
-         }*/
+        viewModel = ViewModelProvider(this).get(ProductViewModel::class.java)
     }
 
     private val backPressedCallback = object : OnBackPressedCallback(true) {
@@ -124,7 +116,7 @@ class StudentFragment : Fragment() {
                         phonenumber = binding.editTextPhone.text.toString()
                         birthdate = Date(selectedDate.time.time)
                     }
-                    viewModel.newStudent(groupID!!, product!!)
+                    viewModel.newProduct(categoryID!!, product!!)
                 } else {
                     product?.apply {
                         firstname = binding.editTextTextPersonNameFirstName.text.toString()
@@ -133,7 +125,7 @@ class StudentFragment : Fragment() {
                         phonenumber = binding.editTextPhone.text.toString()
                         birthdate = Date(selectedDate.time.time)
                     }
-                    viewModel.editStudent(groupID!!, product!!)
+                    viewModel.editProduct(categoryID!!, product!!)
                 }
                 backPressedCallback.isEnabled = false
                 requireActivity().onBackPressedDispatcher.onBackPressed()

@@ -19,10 +19,10 @@ import com.example.android_store.databinding.FragmentGroupListBinding
 import java.util.*
 
 
-class GroupList(private val category: Category) : Fragment() {
+class CategoryList(private val category: Category) : Fragment() {
     private var _binding: FragmentGroupListBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel: GroupListViewModel
+    private lateinit var viewModel: CategoryListViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -40,11 +40,11 @@ class GroupList(private val category: Category) : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.recycleViewGroupList.adapter = GroupListAdapter(category?.product ?: emptyList())
-        viewModel = GroupListViewModel()
+        binding.recycleViewGroupList.adapter = CategoryListAdapter(category?.product ?: emptyList())
+        viewModel = CategoryListViewModel()
     }
 
-    private inner class GroupHolder(view: View) : RecyclerView.ViewHolder(view),
+    private inner class CategoryHolder(view: View) : RecyclerView.ViewHolder(view),
         View.OnClickListener {
         lateinit var product: Product
         fun bind(product: Product) {
@@ -56,7 +56,7 @@ class GroupList(private val category: Category) : Fragment() {
                 showDeleteDialog(product)
             }
             itemView.findViewById<ImageButton>(R.id.ibEdit).setOnClickListener {
-                callbacks?.showStudent(category.id, product)
+                callbacks?.showProduct(category.id, product)
             }
         }
 
@@ -81,29 +81,29 @@ class GroupList(private val category: Category) : Fragment() {
         builder.setMessage("Удалить студента ${product.lastname} ${product.firstname} ${product.midlename} из списка?")
         builder.setTitle("Подтверждение")
         builder.setPositiveButton(getString(R.string.commit)) { _, _ ->
-            viewModel.deleteStudent(category.id, product)
+            viewModel.deleteProduct(category.id, product)
         }
         builder.setNegativeButton("Отмена", null)
         val alert = builder.create()
         alert.show()
     }
 
-    private inner class GroupListAdapter(private val items: List<Product>) :
-        RecyclerView.Adapter<GroupHolder>() {
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupHolder {
+    private inner class CategoryListAdapter(private val items: List<Product>) :
+        RecyclerView.Adapter<CategoryHolder>() {
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryHolder {
             val view = layoutInflater.inflate(R.layout.layout_student_listelement, parent, false)
 
-            return GroupHolder(view)
+            return CategoryHolder(view)
         }
 
         override fun getItemCount(): Int = items.size
-        override fun onBindViewHolder(holder: GroupHolder, position: Int) {
+        override fun onBindViewHolder(holder: CategoryHolder, position: Int) {
             holder.bind(items[position])
         }
     }
 
     interface Callbacks {
-        fun showStudent(groupID: UUID, product: Product?)
+        fun showProduct(categoryID: UUID, product: Product?)
     }
 
     var callbacks: Callbacks? = null

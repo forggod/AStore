@@ -16,8 +16,9 @@ import com.example.android_store.ui.*
 import repository.StoreRepository
 import java.util.*
 
-class MainActivity : AppCompatActivity(), StoreFragment.Callbacks,GroupList.Callbacks, CategoryFragment.Callbacks {
-    private var miNewFaculty: MenuItem? = null
+class MainActivity : AppCompatActivity(), StoreFragment.Callbacks, CategoryList.Callbacks,
+    CategoryFragment.Callbacks {
+    private var miNewProduct: MenuItem? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +56,7 @@ class MainActivity : AppCompatActivity(), StoreFragment.Callbacks,GroupList.Call
                     showNameInputDialog(1)
                 true
             }
+
             else -> return super.onOptionsItemSelected(item)
         }
     }
@@ -77,12 +79,13 @@ class MainActivity : AppCompatActivity(), StoreFragment.Callbacks,GroupList.Call
                     }
                 }
             }
+
             1 -> {
                 tvInfo.text = getString(R.string.inputGroup)
                 builder.setPositiveButton(getString(R.string.commit)) { _, _ ->
                     val s = nameInput.text.toString()
                     if (s.isNotBlank()) {
-                        StoreRepository.get().newGroup(CategoryFragment.getFacultyID, s)
+                        StoreRepository.get().newCategory(CategoryFragment.getStoreID, s)
                     }
                 }
             }
@@ -97,10 +100,10 @@ class MainActivity : AppCompatActivity(), StoreFragment.Callbacks,GroupList.Call
         title = _title
     }
 
-    override fun showStudent(groupID: UUID, product: Product?) {
+    override fun showProduct(categoryID: UUID, product: Product?) {
         supportFragmentManager
             .beginTransaction()
-            .replace(R.id.frameMain, StudentFragment.newInstance(groupID,product), STUDENT_TAG)
+            .replace(R.id.frameMain, ProductFragment.newInstance(categoryID, product), PRODUCT_TAG)
             .addToBackStack(null)
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
             .commit()

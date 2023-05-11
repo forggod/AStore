@@ -21,11 +21,11 @@ class StoreRepository private constructor() {
 
         fun get(): StoreRepository {
             return INSTANCE
-                ?: throw java.lang.IllegalStateException("Репозиторий Faculty Repository не иницилизирован")
+                ?: throw java.lang.IllegalStateException("Репозиторий Store Repository не иницилизирован")
         }
 
-        fun deleteStudent(id: UUID, product: Product) {
-            deleteStudent(id, product)
+        fun deleteProduct(id: UUID, product: Product) {
+            deleteProduct(id, product)
         }
     }
 
@@ -40,61 +40,59 @@ class StoreRepository private constructor() {
         this.store.postValue(list)
     }
 
-    fun newGroup(facultyID: UUID, name: String) {
-        val u = store.value ?: return
-        val faculty = u.find { it.id == facultyID } ?: return
+    fun newCategory(storeID: UUID, name: String) {
+        val st = store.value ?: return
+        val store = st.find { it.id == storeID } ?: return
         val category = Category(name = name)
-        val list: ArrayList<Category> = if (faculty.categories.isEmpty())
+        val list: ArrayList<Category> = if (store.categories.isEmpty())
             ArrayList()
         else
-            faculty.categories as ArrayList<Category>
+            store.categories as ArrayList<Category>
         list.add(category)
-        faculty.categories = list
-        store.postValue(u)
+        store.categories = list
+        this.store.postValue(st)
     }
 
-    fun newStudent(groupID: UUID, product: Product) {
-        val u = store.value ?: return
-
-
-        val faculty = u.find { it?.categories?.find { it.id == groupID } != null } ?: return
-        val group = faculty.categories?.find { it.id == groupID }
-        val list: ArrayList<Product> = if (group!!.product.isEmpty())
+    fun newProduct(categoryID: UUID, product: Product) {
+        val st = store.value ?: return
+        val store = st.find { it?.categories?.find { it.id == categoryID } != null } ?: return
+        val category = store.categories?.find { it.id == categoryID }
+        val list: ArrayList<Product> = if (category!!.product.isEmpty())
             ArrayList()
         else
-            group.product as ArrayList<Product>
+            category.product as ArrayList<Product>
         list.add(product)
-        group.product = list
-        store.postValue(u)
+        category.product = list
+        this.store.postValue(st)
     }
 
-    fun deleteStudent(groupID: UUID, product: Product) {
-        val u = store.value ?: return
-        val faculty = u.find { it?.categories?.find { it.id == groupID } != null } ?: return
-        val group = faculty.categories?.find { it.id == groupID } ?: return
-        if (group!!.product.isEmpty()) return
-        val list = group.product as ArrayList<Product>
+    fun deleteProduct(categoryID: UUID, product: Product) {
+        val st = store.value ?: return
+        val store = st.find { it?.categories?.find { it.id == categoryID } != null } ?: return
+        val category = store.categories?.find { it.id == categoryID } ?: return
+        if (category!!.product.isEmpty()) return
+        val list = category.product as ArrayList<Product>
         list.remove(product)
-        group.product = list
-        store.postValue(u)
+        category.product = list
+        this.store.postValue(st)
     }
 
-    fun editStudent(groupID: UUID, product: Product) {
-        val u = store.value ?: return
-        val faculty = u.find { it?.categories?.find { it.id == groupID } != null } ?: return
-        val group = faculty.categories?.find { it.id == groupID } ?: return
-        val _student = group.product.find { it.id == product.id }
-        if (_student == null) {
-            newStudent(groupID, product)
+    fun editProduct(categoryID: UUID, product: Product) {
+        val st = store.value ?: return
+        val store = st.find { it?.categories?.find { it.id == categoryID } != null } ?: return
+        val category = store.categories?.find { it.id == categoryID } ?: return
+        val _product = category.product.find { it.id == product.id }
+        if (_product == null) {
+            newProduct(categoryID, product)
             return
         }
 
-        val list = group.product as ArrayList<Product>
-        val i = list.indexOf(_student)
+        val list = category.product as ArrayList<Product>
+        val i = list.indexOf(_product)
         list.remove(product)
         list.add(i, product)
-        group.product = list
-        store.postValue(u)
+        category.product = list
+        this.store.postValue(st)
     }
 
 }

@@ -5,7 +5,7 @@ import com.example.android_store.data.Product
 import repository.StoreRepository
 import java.util.*
 
-class GroupListViewModel: ViewModel() {
-    fun deleteStudent(groupID: UUID, product: Product)=
-        StoreRepository.get().deleteStudent(groupID,product)
+class CategoryListViewModel : ViewModel() {
+    fun deleteProduct(categoryID: UUID, product: Product) =
+        StoreRepository.get().deleteProduct(categoryID, product)
 }

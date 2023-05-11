@@ -30,7 +30,7 @@ class CategoryFragment : Fragment() {
             return CategoryFragment()
         }
 
-        val getFacultyID get() = _storeID
+        val getStoreID get() = _storeID
     }
 
     private lateinit var viewModel: StoreCategoryViewModel
@@ -69,11 +69,11 @@ class CategoryFragment : Fragment() {
                 View.GONE
             else {
                 binding.faBtnAddStudent.setOnClickListener {
-                    callbacks?.showStudent(Store!!.categories!!.get(tabPosition).id, null)
+                    callbacks?.showProduct(Store!!.categories!!.get(tabPosition).id, null)
                 }
                 View.VISIBLE
             }
-        val adapter = GroupPageAdapter(requireActivity(), Store!!)
+        val adapter = CategoryPageAdapter(requireActivity(), Store!!)
         binding.viewPageGroups.adapter = adapter
         TabLayoutMediator(binding.tabLayoutGroup, binding.viewPageGroups, true, true) { tab, pos ->
             tab.text = Store?.categories?.get(pos)?.name
@@ -92,20 +92,20 @@ class CategoryFragment : Fragment() {
         })
     }
 
-    private inner class GroupPageAdapter(fa: FragmentActivity, private val store: Store) :
+    private inner class CategoryPageAdapter(fa: FragmentActivity, private val store: Store) :
         FragmentStateAdapter(fa) {
         override fun getItemCount(): Int {
             return store.categories?.size ?: 0
         }
 
         override fun createFragment(position: Int): Fragment {
-            return GroupList(store.categories?.get(position)!!)
+            return CategoryList(store.categories?.get(position)!!)
         }
     }
 
     interface Callbacks {
         fun setTitle(_title: String)
-        fun showStudent(groupID: UUID, product: Product?)
+        fun showProduct(categoryID: UUID, product: Product?)
     }
 
     var callbacks: Callbacks? = null
