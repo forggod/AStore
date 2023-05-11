@@ -12,14 +12,14 @@ import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import com.example.android_store.data.Product
 import com.example.android_store.R
-import com.example.android_store.databinding.FragmentStudentBinding
+import com.example.android_store.databinding.FragmentProductBinding
 import java.util.*
 
 const val PRODUCT_TAG = "ProductFragment"
 
 class ProductFragment : Fragment() {
 
-    private var _binding: FragmentStudentBinding? = null
+    private var _binding: FragmentProductBinding? = null
     private val binding get() = _binding!!
 
     companion object {
@@ -36,7 +36,7 @@ class ProductFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentStudentBinding.inflate(inflater, container, false)
+        _binding = FragmentProductBinding.inflate(inflater, container, false)
         return binding.root
     }
 

@@ -3,10 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.CategoryList">
+    tools:context=".ui.CategoryFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycleView_groupList"
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:text="" />
+
 </FrameLayout>

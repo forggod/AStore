@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity(), StoreFragment.Callbacks, CategoryList.
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.miNewFaculty -> {
+            R.id.miNewStore -> {
                 val myFragment = supportFragmentManager.findFragmentByTag(CATEGORY_TAG)
                 if (myFragment == null)
                     showNameInputDialog(0)

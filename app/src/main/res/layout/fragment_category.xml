@@ -13,7 +13,7 @@
 
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/faBtnAddStudent"
+            android:id="@+id/fab_addProduct"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="24dp"
@@ -25,7 +25,7 @@
             tools:ignore="ContentDescription,ImageContrastCheck,SpeakableTextPresentCheck" />
 
         <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabLayout_group"
+            android:id="@+id/tabLayout_caregory"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
@@ -36,7 +36,7 @@
         </com.google.android.material.tabs.TabLayout>
 
         <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/viewPage_groups"
+            android:id="@+id/viewPage_category"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="8dp"
@@ -44,7 +44,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tabLayout_group"
+            app:layout_constraintTop_toBottomOf="@+id/tabLayout_caregory"
             app:layout_constraintVertical_bias="1.0">
 
         </androidx.viewpager2.widget.ViewPager2>

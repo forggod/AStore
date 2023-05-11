@@ -32,7 +32,7 @@ class StoreFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_faculty, container, false)
-        rvStore = view.findViewById(R.id.rvFaculty)
+        rvStore = view.findViewById(R.id.rv_store)
         rvStore.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         return view
     }
@@ -53,7 +53,7 @@ class StoreFragment : Fragment() {
 
         fun bind(store: Store) {
             this.store = store
-            itemView.findViewById<TextView>(R.id.tv_FacultyElement).text = store.name
+            itemView.findViewById<TextView>(R.id.tv_StoreElement).text = store.name
         }
 
         init {
@@ -72,7 +72,7 @@ class StoreFragment : Fragment() {
             viewType: Int
         )
                 : StoreHolder {
-            val view = layoutInflater.inflate(R.layout.layout_faculty_listelement, parent, false)
+            val view = layoutInflater.inflate(R.layout.store_listelement, parent, false)
             return StoreHolder(view)
         }
 

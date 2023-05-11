@@ -11,7 +11,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.android_store.data.Store
 import com.example.android_store.data.Product
-import com.example.android_store.databinding.FragmentGroupBinding
+import com.example.android_store.databinding.FragmentCategoryBinding
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import java.util.*
@@ -20,7 +20,7 @@ const val CATEGORY_TAG = "CategoryFragment"
 
 class CategoryFragment : Fragment() {
 
-    private var _binding: FragmentGroupBinding? = null
+    private var _binding: FragmentCategoryBinding? = null
     private val binding get() = _binding!!
 
     companion object {
@@ -39,7 +39,7 @@ class CategoryFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentGroupBinding.inflate(inflater, container, false)
+        _binding = FragmentCategoryBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -56,30 +56,30 @@ class CategoryFragment : Fragment() {
     private var tabPosition: Int = 0
 
     private fun updateUI(Store: Store?) {
-        binding.tabLayoutGroup.clearOnTabSelectedListeners()
-        binding.tabLayoutGroup.removeAllTabs()
+        binding.tabLayoutCaregory.clearOnTabSelectedListeners()
+        binding.tabLayoutCaregory.removeAllTabs()
         for (i in 0 until (Store?.categories?.size ?: 0)) {
-            binding.tabLayoutGroup.addTab(binding.tabLayoutGroup.newTab().apply {
+            binding.tabLayoutCaregory.addTab(binding.tabLayoutCaregory.newTab().apply {
                 text = i.toString()
             })
         }
 
-        binding.faBtnAddStudent.visibility =
+        binding.fabAddProduct.visibility =
             if ((Store?.categories?.size ?: 0) == 0)
                 View.GONE
             else {
-                binding.faBtnAddStudent.setOnClickListener {
+                binding.fabAddProduct.setOnClickListener {
                     callbacks?.showProduct(Store!!.categories!!.get(tabPosition).id, null)
                 }
                 View.VISIBLE
             }
         val adapter = CategoryPageAdapter(requireActivity(), Store!!)
-        binding.viewPageGroups.adapter = adapter
-        TabLayoutMediator(binding.tabLayoutGroup, binding.viewPageGroups, true, true) { tab, pos ->
+        binding.viewPageCategory.adapter = adapter
+        TabLayoutMediator(binding.tabLayoutCaregory, binding.viewPageCategory, true, true) { tab, pos ->
             tab.text = Store?.categories?.get(pos)?.name
         }.attach()
 
-        binding.tabLayoutGroup.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+        binding.tabLayoutCaregory.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 tabPosition = tab?.position!!
             }

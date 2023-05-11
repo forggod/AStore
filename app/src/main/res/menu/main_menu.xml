@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/miNewFaculty"
+        android:id="@+id/miNewStore"
         android:icon="@android:drawable/ic_input_add"
         android:title="@string/new_el"
         app:showAsAction="always"

@@ -15,12 +15,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.android_store.data.Category
 import com.example.android_store.data.Product
 import com.example.android_store.R
-import com.example.android_store.databinding.FragmentGroupListBinding
+import com.example.android_store.databinding.FragmentCategoryListBinding
 import java.util.*
 
 
 class CategoryList(private val category: Category) : Fragment() {
-    private var _binding: FragmentGroupListBinding? = null
+    private var _binding: FragmentCategoryListBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: CategoryListViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,15 +32,15 @@ class CategoryList(private val category: Category) : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentGroupListBinding.inflate(inflater, container, false)
-        binding.recycleViewGroupList.layoutManager =
+        _binding = FragmentCategoryListBinding.inflate(inflater, container, false)
+        binding.rvCategoryList.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.recycleViewGroupList.adapter = CategoryListAdapter(category?.product ?: emptyList())
+        binding.rvCategoryList.adapter = CategoryListAdapter(category?.product ?: emptyList())
         viewModel = CategoryListViewModel()
     }
 
@@ -91,7 +91,7 @@ class CategoryList(private val category: Category) : Fragment() {
     private inner class CategoryListAdapter(private val items: List<Product>) :
         RecyclerView.Adapter<CategoryHolder>() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryHolder {
-            val view = layoutInflater.inflate(R.layout.layout_student_listelement, parent, false)
+            val view = layoutInflater.inflate(R.layout.product_listelement, parent, false)
 
             return CategoryHolder(view)
         }
