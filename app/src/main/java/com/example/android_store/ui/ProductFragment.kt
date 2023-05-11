@@ -57,9 +57,9 @@ class ProductFragment : Fragment() {
                 null,
             )
             binding.calendarIDDayExpiring.init(
-                dtm.get(Calendar.YEAR),
-                dtm.get(Calendar.MONTH),
-                dtm.get(Calendar.DAY_OF_MONTH),
+                dte.get(Calendar.YEAR),
+                dte.get(Calendar.MONTH),
+                dte.get(Calendar.DAY_OF_MONTH),
                 null,
             )
         }

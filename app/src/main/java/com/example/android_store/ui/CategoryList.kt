@@ -92,7 +92,6 @@ class CategoryList(private val category: Category) : Fragment() {
         RecyclerView.Adapter<CategoryHolder>() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryHolder {
             val view = layoutInflater.inflate(R.layout.product_listelement, parent, false)
-
             return CategoryHolder(view)
         }
 
