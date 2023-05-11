@@ -6,12 +6,14 @@ import com.example.android_store.data.Store
 import repository.StoreRepository
 
 class StoreViewModel : ViewModel() {
-    var store: MutableLiveData<List<Store>> = MutableLiveData()
-    init{
-        StoreRepository.get().store.observeForever{
-            store.postValue(it)
+    var storeNet: MutableLiveData<List<Store>> = MutableLiveData()
+
+    init {
+        StoreRepository.get().storeNet.observeForever {
+            storeNet.postValue(it)
         }
     }
-    fun newStore(name:String)=
+
+    fun newStore(name: String) =
         StoreRepository.get().newStore(name)
 }

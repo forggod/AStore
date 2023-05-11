@@ -11,7 +11,7 @@ class StoreCategoryViewModel : ViewModel() {
     private lateinit var _storeID: UUID
     fun setStore(storeID: UUID) {
         _storeID = storeID
-        StoreRepository.get().store.observeForever {
+        StoreRepository.get().storeNet.observeForever {
             store.postValue(it.find { it.id == _storeID })
         }
     }

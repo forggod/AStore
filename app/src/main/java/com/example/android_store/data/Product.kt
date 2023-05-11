@@ -2,11 +2,11 @@ package com.example.android_store.data
 
 import java.util.*
 
-class Product (
+class Product(
     val id: UUID = UUID.randomUUID(),
-    var firstname: String="",
-    var lastname: String="",
-    var midlename: String="",
-    var phonenumber: String="",
-    var birthdate: Date =Date(0L)
+    var name: String = "",
+    var count: String = "",
+    var price: String = "",
+    var dayManufacture: Date = Date(0L),
+    var dayExpiring: Date = Date(0L),
 )

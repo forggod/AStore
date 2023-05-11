@@ -45,17 +45,22 @@ class ProductFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (product != null) {
-            binding.editTextTextPersonNameFirstName.setText(product!!.firstname)
-            binding.editTextTextPersonNameName.setText(product!!.midlename)
-            binding.editTextTextPersonNameLastName.setText(product!!.lastname)
-            binding.editTextPhone.setText(product!!.phonenumber)
-            val dt = GregorianCalendar().apply {
-                time = product!!.birthdate
-
-            }
-            binding.calendarID.init(
-                dt.get(Calendar.YEAR), dt.get(Calendar.MONTH),
-                dt.get(Calendar.DAY_OF_MONTH), null
+            binding.editTextName.setText(product!!.name)
+            binding.editTextCount.setText(product!!.count)
+            binding.editTextPrice.setText(product!!.price)
+            val dtm = GregorianCalendar().apply { time = product!!.dayManufacture }
+            val dte = GregorianCalendar().apply { time = product!!.dayExpiring }
+            binding.calendarIDDayManufacture.init(
+                dtm.get(Calendar.YEAR),
+                dtm.get(Calendar.MONTH),
+                dtm.get(Calendar.DAY_OF_MONTH),
+                null,
+            )
+            binding.calendarIDDayExpiring.init(
+                dtm.get(Calendar.YEAR),
+                dtm.get(Calendar.MONTH),
+                dtm.get(Calendar.DAY_OF_MONTH),
+                null,
             )
         }
         viewModel = ViewModelProvider(this).get(ProductViewModel::class.java)
@@ -79,55 +84,55 @@ class ProductFragment : Fragment() {
         builder.setTitle("Подтверждение")
         builder.setPositiveButton(getString(R.string.commit)) { _, _ ->
             var p = true
-            binding.editTextTextPersonNameFirstName.text.toString().ifBlank {
+            binding.editTextName.text.toString().ifBlank {
                 p = false
-                binding.editTextTextPersonNameFirstName.error = "Укажите значение"
+                binding.editTextName.error = R.string.entry.toString()
             }
-            binding.editTextTextPersonNameLastName.text.toString().ifBlank {
+            binding.editTextCount.text.toString().ifBlank {
                 p = false
-                binding.editTextTextPersonNameLastName.error = "Укажите значение"
+                binding.editTextCount.error = R.string.entry.toString()
             }
-            binding.editTextTextPersonNameName.text.toString().ifBlank {
+            binding.editTextPrice.text.toString().ifBlank {
                 p = false
-                binding.editTextTextPersonNameName.error = "Укажите значение"
+                binding.editTextPrice.error = R.string.entry.toString()
             }
-            binding.editTextPhone.text.toString().ifBlank {
+            if (binding.calendarIDDayManufacture.year > binding.calendarIDDayExpiring.year) {
                 p = false
-                binding.editTextPhone.error = "Укажите значение"
-            }
-
-            if (GregorianCalendar().get(GregorianCalendar.YEAR) - binding.calendarID.year < 10) {
-                p = false
-                Toast.makeText(context, "Укажите правильно возраст", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, R.string.errorDM.toString(), Toast.LENGTH_LONG).show()
             }
 
             if (p) {
-                val selectedDate = GregorianCalendar().apply {
-                    set(GregorianCalendar.YEAR, binding.calendarID.year)
-                    set(GregorianCalendar.YEAR, binding.calendarID.month)
-                    set(GregorianCalendar.YEAR, binding.calendarID.dayOfMonth)
+                val selectedDM = GregorianCalendar().apply {
+                    set(GregorianCalendar.YEAR, binding.calendarIDDayManufacture.year)
+                    set(GregorianCalendar.MONTH, binding.calendarIDDayManufacture.month)
+                    set(GregorianCalendar.DAY_OF_MONTH, binding.calendarIDDayManufacture.dayOfMonth)
+                }
+                val selectedDE = GregorianCalendar().apply {
+                    set(GregorianCalendar.YEAR, binding.calendarIDDayExpiring.year)
+                    set(GregorianCalendar.MONTH, binding.calendarIDDayExpiring.month)
+                    set(GregorianCalendar.DAY_OF_MONTH, binding.calendarIDDayExpiring.dayOfMonth)
                 }
                 if (product == null) {
                     product = Product()
                     product?.apply {
-                        firstname = binding.editTextTextPersonNameFirstName.text.toString()
-                        lastname = binding.editTextTextPersonNameLastName.text.toString()
-                        midlename = binding.editTextTextPersonNameName.text.toString()
-                        phonenumber = binding.editTextPhone.text.toString()
-                        birthdate = Date(selectedDate.time.time)
+                        name = binding.editTextName.text.toString()
+                        count = binding.editTextCount.text.toString()
+                        price = binding.editTextPrice.text.toString()
+                        dayManufacture = Date(selectedDM.time.time)
+                        dayExpiring = Date(selectedDE.time.time)
                     }
                     viewModel.newProduct(categoryID!!, product!!)
                 } else {
                     product?.apply {
-                        firstname = binding.editTextTextPersonNameFirstName.text.toString()
-                        lastname = binding.editTextTextPersonNameLastName.text.toString()
-                        midlename = binding.editTextTextPersonNameName.text.toString()
-                        phonenumber = binding.editTextPhone.text.toString()
-                        birthdate = Date(selectedDate.time.time)
+                        name = binding.editTextName.text.toString()
+                        count = binding.editTextCount.text.toString()
+                        price = binding.editTextPrice.text.toString()
+                        dayManufacture = Date(selectedDM.time.time)
+                        dayExpiring = Date(selectedDE.time.time)
                     }
-                    viewModel.editProduct(categoryID!!, product!!)
+                    viewModel.newProduct(categoryID!!, product!!)
                 }
-                backPressedCallback.isEnabled = false
+                backPressedCallback.isEnabled=false
                 requireActivity().onBackPressedDispatcher.onBackPressed()
             }
         }

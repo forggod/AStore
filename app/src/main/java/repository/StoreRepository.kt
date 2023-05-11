@@ -8,7 +8,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class StoreRepository private constructor() {
-    var store: MutableLiveData<List<Store>> = MutableLiveData()
+    var storeNet: MutableLiveData<List<Store>> = MutableLiveData()
 
     companion object {
         private var INSTANCE: StoreRepository? = null
@@ -32,16 +32,16 @@ class StoreRepository private constructor() {
     fun newStore(name: String) {
         val store = Store(name = name)
         val list: ArrayList<Store> =
-            if (this.store.value != null) {
-                (this.store.value as ArrayList<Store>)
+            if (storeNet.value != null) {
+                (storeNet.value as ArrayList<Store>)
             } else
                 ArrayList<Store>()
         list.add(store)
-        this.store.postValue(list)
+        storeNet.postValue(list)
     }
 
     fun newCategory(storeID: UUID, name: String) {
-        val st = store.value ?: return
+        val st = storeNet.value ?: return
         val store = st.find { it.id == storeID } ?: return
         val category = Category(name = name)
         val list: ArrayList<Category> = if (store.categories.isEmpty())
@@ -50,11 +50,11 @@ class StoreRepository private constructor() {
             store.categories as ArrayList<Category>
         list.add(category)
         store.categories = list
-        this.store.postValue(st)
+        storeNet.postValue(st)
     }
 
     fun newProduct(categoryID: UUID, product: Product) {
-        val st = store.value ?: return
+        val st = storeNet.value ?: return
         val store = st.find { it?.categories?.find { it.id == categoryID } != null } ?: return
         val category = store.categories?.find { it.id == categoryID }
         val list: ArrayList<Product> = if (category!!.product.isEmpty())
@@ -63,22 +63,22 @@ class StoreRepository private constructor() {
             category.product as ArrayList<Product>
         list.add(product)
         category.product = list
-        this.store.postValue(st)
+        storeNet.postValue(st)
     }
 
     fun deleteProduct(categoryID: UUID, product: Product) {
-        val st = store.value ?: return
+        val st = storeNet.value ?: return
         val store = st.find { it?.categories?.find { it.id == categoryID } != null } ?: return
         val category = store.categories?.find { it.id == categoryID } ?: return
         if (category!!.product.isEmpty()) return
         val list = category.product as ArrayList<Product>
         list.remove(product)
         category.product = list
-        this.store.postValue(st)
+        this.storeNet.postValue(st)
     }
 
     fun editProduct(categoryID: UUID, product: Product) {
-        val st = store.value ?: return
+        val st = storeNet.value ?: return
         val store = st.find { it?.categories?.find { it.id == categoryID } != null } ?: return
         val category = store.categories?.find { it.id == categoryID } ?: return
         val _product = category.product.find { it.id == product.id }
@@ -92,7 +92,6 @@ class StoreRepository private constructor() {
         list.remove(product)
         list.add(i, product)
         category.product = list
-        this.store.postValue(st)
+        storeNet.postValue(st)
     }
-
 }

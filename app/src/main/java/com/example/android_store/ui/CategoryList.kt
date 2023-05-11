@@ -49,7 +49,7 @@ class CategoryList(private val category: Category) : Fragment() {
         lateinit var product: Product
         fun bind(product: Product) {
             this.product = product
-            val s = "${product.lastname}. ${product.firstname.get(0)}. ${product.midlename.get(0)}."
+            val s = "${product.name}."
             itemView.findViewById<TextView>(R.id.tvElement).text = s
             itemView.findViewById<ConstraintLayout>(R.id.edButtons).visibility = View.GONE
             itemView.findViewById<ImageButton>(R.id.ibDelete).setOnClickListener {
@@ -78,7 +78,7 @@ class CategoryList(private val category: Category) : Fragment() {
     private fun showDeleteDialog(product: Product) {
         val builder = AlertDialog.Builder(requireContext())
         builder.setCancelable(true)
-        builder.setMessage("Удалить студента ${product.lastname} ${product.firstname} ${product.midlename} из списка?")
+        builder.setMessage("Удалить студента ${product.name} из списка?")
         builder.setTitle("Подтверждение")
         builder.setPositiveButton(getString(R.string.commit)) { _, _ ->
             viewModel.deleteProduct(category.id, product)

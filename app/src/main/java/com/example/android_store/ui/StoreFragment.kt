@@ -40,7 +40,7 @@ class StoreFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this).get(StoreViewModel::class.java)
-        viewModel.store.observe(viewLifecycleOwner) {
+        viewModel.storeNet.observe(viewLifecycleOwner) {
             adapter = StoreListAdapter(it)
             rvStore.adapter = adapter
         }
