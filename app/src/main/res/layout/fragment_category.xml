@@ -16,21 +16,25 @@
             android:id="@+id/fab_addProduct"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="24dp"
             android:clickable="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@android:drawable/ic_input_add"
-            tools:ignore="ContentDescription,ImageContrastCheck,SpeakableTextPresentCheck"
-            tools:layout_editor_absoluteX="339dp"
-            tools:layout_editor_absoluteY="643dp" />
+            tools:ignore="ContentDescription,ImageContrastCheck,SpeakableTextPresentCheck" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_actionCategory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginBottom="24dp"
             android:clickable="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:srcCompat="?attr/actionModePasteDrawable"
-            tools:ignore="ContentDescription,ImageContrastCheck,SpeakableTextPresentCheck"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="643dp" />
+            tools:ignore="ContentDescription,ImageContrastCheck,SpeakableTextPresentCheck" />
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout_caregory"
@@ -45,8 +49,8 @@
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewPage_category"
-            android:layout_width="410dp"
-            android:layout_height="667dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:layout_marginTop="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
