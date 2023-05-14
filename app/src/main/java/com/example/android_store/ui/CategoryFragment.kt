@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.example.android_store.data.Category
 import com.example.android_store.data.Store
 import com.example.android_store.data.Product
 import com.example.android_store.databinding.FragmentCategoryBinding
@@ -75,17 +76,40 @@ class CategoryFragment : Fragment() {
                 }
                 View.VISIBLE
             }
+
+        binding.fabActionCategory.visibility =
+            if ((Store?.categories?.size ?: 0) == 0)
+                View.GONE
+            else {
+                binding.fabActionCategory.setOnClickListener {
+                    val tabName =
+                        binding.tabLayoutCaregory.getTabAt(binding.tabLayoutCaregory.selectedTabPosition)?.text.toString()
+                    val category = Store?.categories?.find { it.name == tabName }
+                    val list = Store?.categories as ArrayList<Category>
+                    list.remove(category)
+                    Store.categories = list
+                    updateUI(Store)
+                }
+                View.VISIBLE
+            }
+
         val adapter = CategoryPageAdapter(requireActivity(), Store!!)
         binding.viewPageCategory.adapter = adapter
-        TabLayoutMediator(binding.tabLayoutCaregory, binding.viewPageCategory, true, true) { tab, pos ->
+        TabLayoutMediator(
+            binding.tabLayoutCaregory,
+            binding.viewPageCategory,
+            true,
+            true
+        ) { tab, pos ->
             tab.text = Store?.categories?.get(pos)?.name
         }.attach()
-        if (tabPosition < binding.tabLayoutCaregory.tabCount){
-            binding.tabLayoutCaregory.setScrollPosition(tabPosition, 0f,true )
+        if (tabPosition < binding.tabLayoutCaregory.tabCount) {
+            binding.tabLayoutCaregory.setScrollPosition(tabPosition, 0f, true)
             binding.viewPageCategory.currentItem = tabPosition
         }
 
-        binding.tabLayoutCaregory.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+        binding.tabLayoutCaregory.addOnTabSelectedListener(object :
+            TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 tabPosition = tab?.position!!
             }
