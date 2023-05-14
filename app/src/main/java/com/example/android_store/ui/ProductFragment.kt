@@ -96,7 +96,7 @@ class ProductFragment : Fragment() {
                 p = false
                 binding.editTextPrice.error = R.string.entry.toString()
             }
-            if (binding.calendarIDDayManufacture.year > binding.calendarIDDayExpiring.year) {
+            if (binding.calendarIDDayManufacture.year >= binding.calendarIDDayExpiring.year) {
                 p = false
                 Toast.makeText(context, R.string.errorDM.toString(), Toast.LENGTH_LONG).show()
             }
@@ -137,7 +137,8 @@ class ProductFragment : Fragment() {
             }
         }
         builder.setNegativeButton("Отмена") { _, _ ->
-            backPressedCallback.isEnabled = true
+            backPressedCallback.isEnabled = false
+            requireActivity().onBackPressedDispatcher.onBackPressed()
         }
         val alert = builder.create()
         alert.show()

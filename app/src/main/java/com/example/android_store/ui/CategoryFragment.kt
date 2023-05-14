@@ -3,6 +3,7 @@ package com.example.android_store.ui
 import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,7 @@ import com.example.android_store.data.Product
 import com.example.android_store.databinding.FragmentCategoryBinding
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import kotlinx.coroutines.selects.select
 import java.util.*
 
 const val CATEGORY_TAG = "CategoryFragment"
@@ -78,6 +80,10 @@ class CategoryFragment : Fragment() {
         TabLayoutMediator(binding.tabLayoutCaregory, binding.viewPageCategory, true, true) { tab, pos ->
             tab.text = Store?.categories?.get(pos)?.name
         }.attach()
+        if (tabPosition < binding.tabLayoutCaregory.tabCount){
+            binding.tabLayoutCaregory.setScrollPosition(tabPosition, 0f,true )
+            binding.viewPageCategory.currentItem = tabPosition
+        }
 
         binding.tabLayoutCaregory.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
