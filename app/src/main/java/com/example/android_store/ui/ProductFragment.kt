@@ -138,9 +138,9 @@ class ProductFragment : Fragment() {
         }
         builder.setNegativeButton("Отмена") { _, _ ->
             backPressedCallback.isEnabled = true
-            requireActivity().onBackPressedDispatcher.onBackPressed()
         }
         val alert = builder.create()
         alert.show()
     }
+//    TODO: Изменить, удалить магазин, категорию, пофиксить позицию категории
 }

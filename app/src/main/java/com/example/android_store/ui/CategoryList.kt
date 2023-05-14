@@ -49,7 +49,7 @@ class CategoryList(private val category: Category) : Fragment() {
         lateinit var product: Product
         fun bind(product: Product) {
             this.product = product
-            val s = "${product.name}."
+            val s = product.name
             itemView.findViewById<TextView>(R.id.tvElement).text = s
             itemView.findViewById<ConstraintLayout>(R.id.edButtons).visibility = View.GONE
             itemView.findViewById<ImageButton>(R.id.ibDelete).setOnClickListener {
