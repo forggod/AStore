@@ -8,8 +8,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.example.android_store.R
 import com.example.android_store.data.Category
 import com.example.android_store.data.Store
 import com.example.android_store.data.Product
@@ -17,6 +21,7 @@ import com.example.android_store.databinding.FragmentCategoryBinding
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.selects.select
+import repository.StoreRepository
 import java.util.*
 
 const val CATEGORY_TAG = "CategoryFragment"
@@ -82,13 +87,7 @@ class CategoryFragment : Fragment() {
                 View.GONE
             else {
                 binding.fabActionCategory.setOnClickListener {
-                    val tabName =
-                        binding.tabLayoutCaregory.getTabAt(binding.tabLayoutCaregory.selectedTabPosition)?.text.toString()
-                    val category = Store?.categories?.find { it.name == tabName }
-                    val list = Store?.categories as ArrayList<Category>
-                    list.remove(category)
-                    Store.categories = list
-                    updateUI(Store)
+                    showAEDialog(Store)
                 }
                 View.VISIBLE
             }
@@ -120,6 +119,53 @@ class CategoryFragment : Fragment() {
             override fun onTabUnselected(tab: TabLayout.Tab?) {
             }
         })
+    }
+
+    private fun showAEDialog(Store: Store?) {
+        val tabName =
+            binding.tabLayoutCaregory.getTabAt(binding.tabLayoutCaregory.selectedTabPosition)?.text.toString()
+        val category = Store?.categories?.find { it.name == tabName }
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setCancelable(true)
+        builder.setMessage("Что сделать с категорией ${category?.name}?")
+        builder.setPositiveButton("Удалить") { _, _ ->
+            val list = Store?.categories as ArrayList<Category>
+            list.remove(category)
+            Store.categories = list
+            updateUI(Store)
+        }
+        builder.setNegativeButton("Изменить") { _, _ ->
+            val builder = context?.let { AlertDialog.Builder(it) }
+            if (builder != null) {
+                builder.setCancelable(true)
+                val dialogView = LayoutInflater.from(context).inflate(R.layout.input_name, null)
+                builder.setView(dialogView)
+                val nameInput = dialogView.findViewById(R.id.tv_name) as EditText
+                val tvInfo = dialogView.findViewById(R.id.tv_info) as TextView
+                builder.setTitle(getString(R.string.inputTitle))
+                tvInfo.text = getString(R.string.inputGroup)
+                if (category != null) {
+                    nameInput.setText(category.name)
+                }
+                builder.setPositiveButton(getString(R.string.commit)) { _, _ ->
+                    val s = nameInput.text.toString()
+                    if (s.isNotBlank()) {
+                        val list = Store?.categories as ArrayList<Category>
+                        if (category != null) {
+                            category.name = nameInput.text.toString()
+                            list.set(list.indexOf(category), category)
+                        }
+                        Store.categories = list
+                    }
+                    updateUI(Store)
+                }
+                builder.setNegativeButton(getString(R.string.cancel), null)
+                val alert = builder.create()
+                alert.show()
+            }
+        }
+        val alert = builder.create()
+        alert.show()
     }
 
     private inner class CategoryPageAdapter(fa: FragmentActivity, private val store: Store) :

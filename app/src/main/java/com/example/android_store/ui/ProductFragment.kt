@@ -143,5 +143,5 @@ class ProductFragment : Fragment() {
         val alert = builder.create()
         alert.show()
     }
-//    TODO: Изменить, удалить магазин, категорию, пофиксить позицию категории
+//    TODO: Изменить, удалить магазин, категорию
 }
