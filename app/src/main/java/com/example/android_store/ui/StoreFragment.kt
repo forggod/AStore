@@ -8,12 +8,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android_store.data.Store
 import com.example.android_store.R
 import com.example.android_store.data.Category
+import repository.StoreRepository
 import java.util.*
 
 const val STORE_TAG = "StoreFragment"
@@ -56,10 +60,56 @@ class StoreFragment : Fragment() {
         fun bind(store: Store) {
             this.store = store
             itemView.findViewById<TextView>(R.id.tv_StoreElement).text = store.name
+            itemView.findViewById<ImageButton>(R.id.ibEdit).setOnClickListener {
+                val builder = context?.let { it1 -> AlertDialog.Builder(it1) }
+                if (builder != null) {
+                    builder.setCancelable(true)
+                    val dialogView = LayoutInflater.from(context).inflate(R.layout.input_name, null)
+                    builder.setView(dialogView)
+                    val nameInput = dialogView.findViewById(R.id.tv_name) as EditText
+                    val tvInfo = dialogView.findViewById(R.id.tv_info) as TextView
+                    builder.setTitle("Измените название")
+                    tvInfo.text = getString(R.string.inputFaculty)
+                    nameInput.setText(store.name)
+                    builder.setPositiveButton(getString(R.string.commit)) { _, _ ->
+                        val s = nameInput.text.toString()
+                        if (s.isNotBlank()) {
+                            store.name = s
+                            itemView.findViewById<TextView>(R.id.tv_StoreElement).text = store.name
+                        }
+                    }
+                    builder.setNegativeButton(getString(R.string.cancel), null)
+                    val alert = builder.create()
+                    alert.show()
+                }
+            }
+            itemView.findViewById<ImageButton>(R.id.ibDelete).setOnClickListener {
+                val builder = context?.let { it1 -> AlertDialog.Builder(it1) }
+                if (builder != null) {
+                    builder.setCancelable(true)
+                    val dialogView = LayoutInflater.from(context).inflate(R.layout.input_name, null)
+                    builder.setView(dialogView)
+                    val nameInput = dialogView.findViewById(R.id.tv_name) as EditText
+                    val tvInfo = dialogView.findViewById(R.id.tv_info) as TextView
+                    builder.setTitle("Вы действительно хотите удалить?")
+                    tvInfo.text = getString(R.string.inputFaculty)
+                    nameInput.setText(store.name)
+                    builder.setPositiveButton(getString(R.string.commit)) { _, _ ->
+                        val s = nameInput.text.toString()
+                        if (s.isNotBlank()) {
+                            StoreRepository.get().deleteStore(store.id)
+                        }
+                    }
+                    builder.setNegativeButton(getString(R.string.cancel), null)
+                    val alert = builder.create()
+                    alert.show()
+                }
+            }
         }
 
         init {
             itemView.setOnClickListener(this)
+
         }
 
         override fun onClick(v: View?) {

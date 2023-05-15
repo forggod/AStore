@@ -12,7 +12,9 @@ class StoreCategoryViewModel : ViewModel() {
     fun setStore(storeID: UUID) {
         _storeID = storeID
         StoreRepository.get().storeNet.observeForever {
-            store.postValue(it.find { it.id == _storeID })
+            if (it != null) {
+                store.postValue(it.find { it.id == _storeID })
+            }
         }
     }
 }

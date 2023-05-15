@@ -8,7 +8,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class StoreRepository private constructor() {
-    var storeNet: MutableLiveData<List<Store>> = MutableLiveData()
+    var storeNet: MutableLiveData<List<Store>?> = MutableLiveData()
 
     companion object {
         private var INSTANCE: StoreRepository? = null
@@ -89,9 +89,17 @@ class StoreRepository private constructor() {
 
         val list = category.product as ArrayList<Product>
         val i = list.indexOf(_product)
-        list.remove(product)
+        list.remove(_product)
         list.add(i, product)
         category.product = list
         storeNet.postValue(st)
+    }
+
+    fun deleteStore(storeID: UUID) {
+        val st = storeNet.value ?: return
+        val store = st.find { it.id == storeID } ?: return
+        val storeList = storeNet.value?.toMutableList()
+        storeList?.remove(store)
+        storeNet.value = storeList
     }
 }
