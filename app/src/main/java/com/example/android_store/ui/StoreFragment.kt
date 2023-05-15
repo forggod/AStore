@@ -84,26 +84,16 @@ class StoreFragment : Fragment() {
                 }
             }
             itemView.findViewById<ImageButton>(R.id.ibDelete).setOnClickListener {
-                val builder = context?.let { it1 -> AlertDialog.Builder(it1) }
-                if (builder != null) {
-                    builder.setCancelable(true)
-                    val dialogView = LayoutInflater.from(context).inflate(R.layout.input_name, null)
-                    builder.setView(dialogView)
-                    val nameInput = dialogView.findViewById(R.id.tv_name) as EditText
-                    val tvInfo = dialogView.findViewById(R.id.tv_info) as TextView
-                    builder.setTitle("Вы действительно хотите удалить?")
-                    tvInfo.text = getString(R.string.inputFaculty)
-                    nameInput.setText(store.name)
-                    builder.setPositiveButton(getString(R.string.commit)) { _, _ ->
-                        val s = nameInput.text.toString()
-                        if (s.isNotBlank()) {
-                            StoreRepository.get().deleteStore(store.id)
-                        }
-                    }
-                    builder.setNegativeButton(getString(R.string.cancel), null)
-                    val alert = builder.create()
-                    alert.show()
+                val builder = AlertDialog.Builder(requireActivity())
+                builder.setCancelable(true)
+                builder.setMessage("Сохранить изменения?")
+                builder.setTitle("Подтверждение")
+                builder.setPositiveButton(getString(R.string.commit)) { _, _ ->
+                    StoreRepository.get().deleteStore(store.id)
                 }
+                builder.setNegativeButton(getString(R.string.cancel), null)
+                val alert = builder.create()
+                alert.show()
             }
         }
 
