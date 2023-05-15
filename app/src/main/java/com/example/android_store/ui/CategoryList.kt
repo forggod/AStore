@@ -51,12 +51,16 @@ class CategoryList(private val category: Category) : Fragment() {
             this.product = product
             val s = product.name
             itemView.findViewById<TextView>(R.id.tvElement).text = s
+
             itemView.findViewById<ConstraintLayout>(R.id.edButtons).visibility = View.GONE
             itemView.findViewById<ImageButton>(R.id.ibDelete).setOnClickListener {
                 showDeleteDialog(product)
             }
             itemView.findViewById<ImageButton>(R.id.ibEdit).setOnClickListener {
                 callbacks?.showProduct(category.id, product)
+            }
+            itemView.setOnLongClickListener{
+                onLongClick(itemView)
             }
         }
 
@@ -65,11 +69,12 @@ class CategoryList(private val category: Category) : Fragment() {
             itemView.setOnClickListener(this)
         }
 
+        fun onLongClick(v:View?): Boolean {
+            showDeleteDialog(product)
+            return true
+        }
         override fun onClick(v: View) {
-            val cl = itemView.findViewById<ConstraintLayout>(R.id.edButtons)
-            cl.visibility = View.VISIBLE
-            lastItemView?.findViewById<ConstraintLayout>(R.id.edButtons)?.visibility = View.GONE
-            lastItemView = if (lastItemView == itemView) null else itemView
+            callbacks?.showProduct(category.id, product)
         }
     }
 
