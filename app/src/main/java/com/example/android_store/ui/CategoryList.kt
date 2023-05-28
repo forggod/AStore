@@ -53,12 +53,6 @@ class CategoryList(private val category: Category) : Fragment() {
             itemView.findViewById<TextView>(R.id.tvElement).text = s
 
             itemView.findViewById<ConstraintLayout>(R.id.edButtons).visibility = View.GONE
-            itemView.findViewById<ImageButton>(R.id.ibDelete).setOnClickListener {
-                showDeleteDialog(product)
-            }
-            itemView.findViewById<ImageButton>(R.id.ibEdit).setOnClickListener {
-                callbacks?.showProduct(category.id, product)
-            }
             itemView.setOnLongClickListener{
                 onLongClick(itemView)
             }

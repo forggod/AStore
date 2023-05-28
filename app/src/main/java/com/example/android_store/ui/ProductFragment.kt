@@ -3,6 +3,7 @@ package com.example.android_store.ui
 import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -112,6 +113,7 @@ class ProductFragment : Fragment() {
                     set(GregorianCalendar.MONTH, binding.calendarIDDayExpiring.month)
                     set(GregorianCalendar.DAY_OF_MONTH, binding.calendarIDDayExpiring.dayOfMonth)
                 }
+                Log.d("DATE", "ДАТА ${selectedDE.time.time} ${selectedDM.time.time}")
                 if (product == null) {
                     product = Product()
                     product?.apply {
@@ -143,5 +145,4 @@ class ProductFragment : Fragment() {
         val alert = builder.create()
         alert.show()
     }
-//    TODO: Изменить, удалить магазин, категорию
 }
